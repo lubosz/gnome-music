@@ -1,4 +1,5 @@
 from gi.repository import Gtk, GObject
+from gnomemusic.searchbar import Searchbar
 
 
 class ToolbarState:
@@ -22,13 +23,15 @@ class Toolbar(GObject.GObject):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/Headerbar.ui')
         self.header_bar = self._ui.get_object('header-bar')
+        self.searchbar = Searchbar()
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
         self._back_button = self._ui.get_object('back-button')
         self._close_separator = self._ui.get_object("close-button-separator")
         self._close_button = self._ui.get_object("close-button")
         self._selection_menu = self._ui.get_object("selection-menu")
-        self._selection_menu_button = self._ui.get_object("selection-menu-button")
+        self._selection_menu_button =\
+            self._ui.get_object("selection-menu-button")
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
         self.header_bar.set_custom_title(self._stack_switcher)
         self._search_button = self._ui.get_object("search-button")
@@ -53,7 +56,8 @@ class Toolbar(GObject.GObject):
             self._select_button.hide()
             self._cancel_button.show()
             self.header_bar.get_style_context().add_class('selection-mode')
-            self._cancel_button.get_style_context().remove_class('selection-mode')
+            self._cancel_button.get_style_context()\
+                .remove_class('selection-mode')
         else:
             self.header_bar.get_style_context().remove_class('selection-mode')
             self._select_button.set_active(False)
